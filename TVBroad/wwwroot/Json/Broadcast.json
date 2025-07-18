@@ -1,0 +1,40 @@
+﻿{
+  "currentTime": "2025-07-18T15:00:00",
+  "timeFrameStart": "2025-07-18T12:30:00",
+  "timeFrameEnd": "2025-07-18T19:00:00",
+  "timeSlots": [
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30"
+  ],
+  "broadcasts": [
+    {
+      "title": "Morning News",
+      "startTime": "2025-07-18T12:30:00",
+      "endTime": "2025-07-18T14:00:00",
+      "slots": [ true, true, true, false, false, false, false, false, false, false, false, false, false ]
+    },
+    {
+      "title": "Kids Cartoon",
+      "startTime": "2025-07-18T14:30:00",
+      "endTime": "2025-07-18T15:30:00",
+      "slots": [ false, false, false, false, true, true, true, false, false, false, false, false, false ]
+    },
+    {
+      "title": "Afternoon Movie",
+      "startTime": "2025-07-18T16:00:00",
+      "endTime": "2025-07-18T18:00:00",
+      "slots": [ false, false, false, false, false, false, false, true, true, true, true, false, false ]
+    }
+  ]
+}

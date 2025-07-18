@@ -1,7 +1,8 @@
-using TVBroad.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using TVBroad.Domain.Entities;
 using TVBroad.Domain.Interfaces;
 using TVBroad.Domain.Interfaces.Broadcast;
 
@@ -15,6 +16,18 @@ namespace Broadcast.Controllers
         {
             _broadcastService = broadcastService;
         }
+        public IActionResult ScheduleJson()
+
+        {
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Json", "Broadcast.json");
+
+            var json = System.IO.File.ReadAllText(filePath);
+
+            return Content(json, "application/json");
+
+        }
+
 
         // List all broadcasts (Admin or Approver view)
         public async Task<IActionResult> Index()
@@ -24,26 +37,43 @@ namespace Broadcast.Controllers
         }
 
         // GET: Create
+        [Authorize(Roles = "Scheduler")]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Scheduler")]
+        //public async Task<IActionResult> Create(Broadcasting schedule)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        await _broadcastService.CreateBroadcastAsync(schedule);
+        //        return RedirectToAction("Index"); // ? Redirect to Index after save
+        //    }
+        //    return View(schedule); // if validation fails, show same view
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Scheduler")]
         public async Task<IActionResult> Create(Broadcasting schedule)
         {
             if (ModelState.IsValid)
             {
+                schedule.Status = "Pending";
+                //schedule.CreatedAt = User.Identity.Name; 
                 await _broadcastService.CreateBroadcastAsync(schedule);
-                return RedirectToAction("Index"); // ? Redirect to Index after save
+                return RedirectToAction("Index");
             }
-            return View(schedule); // if validation fails, show same view
+            return View(schedule);
         }
 
 
         // GET: Edit
+        [Authorize(Roles = "Scheduler")]
         public async Task<IActionResult> Edit(int id)
         {
             var broadcast = await _broadcastService.GetByIdAsync(id);
@@ -55,6 +85,7 @@ namespace Broadcast.Controllers
 
         // POST: Edit
         [HttpPost]
+        [Authorize(Roles = "Scheduler")]
         public async Task<IActionResult> Edit(Broadcasting schedule)
         {
             if (!ModelState.IsValid)
@@ -72,6 +103,7 @@ namespace Broadcast.Controllers
         }
 
         // GET: Delete
+        [Authorize(Roles = "Scheduler")]
         public async Task<IActionResult> Delete(int id)
         {
             var broadcast = await _broadcastService.GetByIdAsync(id);
@@ -82,6 +114,7 @@ namespace Broadcast.Controllers
         }
 
         // POST: Delete
+        [Authorize(Roles = "Scheduler")]
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -90,6 +123,7 @@ namespace Broadcast.Controllers
         }
 
         // GET: Approver View
+        [Authorize(Roles = "Approver")]
         public async Task<IActionResult> ApproveList()
         {
             var broadcasts = await _broadcastService.GetAllAsync();
@@ -98,6 +132,7 @@ namespace Broadcast.Controllers
         }
 
         // GET: Approve or Reject
+        [Authorize(Roles = "Approver")]
         public async Task<IActionResult> Review(int id)
         {
             var broadcast = await _broadcastService.GetByIdAsync(id);
@@ -109,6 +144,7 @@ namespace Broadcast.Controllers
 
         // POST: Review
         [HttpPost]
+        [Authorize(Roles = "Approver")]
         public async Task<IActionResult> Review(int id, string decision)
         {
             var broadcast = await _broadcastService.GetByIdAsync(id);

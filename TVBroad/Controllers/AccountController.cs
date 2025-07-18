@@ -55,10 +55,10 @@ namespace TVBroad.Web.Controllers
                     return RedirectToAction("Index", "Admin");
 
                 if (roles.Contains("Scheduler"))
-                    return RedirectToAction("Dashboard", "Broadcast");
+                    return RedirectToAction("Index", "Broadcast");
 
                 if (roles.Contains("Approver"))
-                    return RedirectToAction("Index", "Approver");
+                    return RedirectToAction("Index", "Broadcast");
             }
 
             ModelState.AddModelError("", "Invalid Login");
