@@ -1,0 +1,12 @@
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\TVBroad.Domain.csproj.AssemblyReference.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\TVBroad.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\TVBroad.Domain.AssemblyInfoInputs.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\TVBroad.Domain.AssemblyInfo.cs
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\TVBroad.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\bin\Debug\net9.0\TVBroad.Domain.deps.json
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\bin\Debug\net9.0\TVBroad.Domain.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\bin\Debug\net9.0\TVBroad.Domain.pdb
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\TVBroad.Domain.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\refint\TVBroad.Domain.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\TVBroad.Domain.pdb
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Domain\obj\Debug\net9.0\ref\TVBroad.Domain.dll

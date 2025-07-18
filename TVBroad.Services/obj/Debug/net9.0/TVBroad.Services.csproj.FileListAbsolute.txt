@@ -1,0 +1,15 @@
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\bin\Debug\net9.0\TVBroad.Services.deps.json
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\bin\Debug\net9.0\TVBroad.Services.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\bin\Debug\net9.0\TVBroad.Services.pdb
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\bin\Debug\net9.0\TVBroad.Domain.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\bin\Debug\net9.0\TVBroad.Domain.pdb
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\TVBroad.Services.csproj.AssemblyReference.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\TVBroad.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\TVBroad.Services.AssemblyInfoInputs.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\TVBroad.Services.AssemblyInfo.cs
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\TVBroad.Services.csproj.CoreCompileInputs.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\TVBroad..CFEFE0BA.Up2Date
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\TVBroad.Services.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\refint\TVBroad.Services.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\TVBroad.Services.pdb
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.Services\obj\Debug\net9.0\ref\TVBroad.Services.dll

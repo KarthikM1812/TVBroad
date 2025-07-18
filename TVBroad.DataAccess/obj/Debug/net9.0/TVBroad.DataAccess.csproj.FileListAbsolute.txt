@@ -1,0 +1,17 @@
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad.DataAccess.csproj.AssemblyReference.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad.DataAccess.AssemblyInfoInputs.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad.DataAccess.AssemblyInfo.cs
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\bin\Debug\net9.0\TVBroad.DataAccess.deps.json
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\bin\Debug\net9.0\TVBroad.DataAccess.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\bin\Debug\net9.0\TVBroad.DataAccess.pdb
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\bin\Debug\net9.0\TVBroad.Domain.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\bin\Debug\net9.0\TVBroad.Domain.pdb
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad..41B9B299.Up2Date
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad.DataAccess.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\refint\TVBroad.DataAccess.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad.DataAccess.pdb
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\ref\TVBroad.DataAccess.dll
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\bin\Debug\net9.0\TVBroad.DataAccess.runtimeconfig.json
+C:\Users\Kaar User\Desktop\BroadCast\TVBroad.DataAccess\obj\Debug\net9.0\TVBroad.DataAccess.genruntimeconfig.cache
