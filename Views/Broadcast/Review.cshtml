@@ -1,0 +1,18 @@
+﻿@model TVBroad.Domain.Entities.Broadcasting
+@{
+    ViewData["Title"] = "Review Broadcast";
+}
+<h2>Review Broadcast</h2>
+
+<div>
+    <h4>@Model.Title</h4>
+    <p><strong>Start:</strong> @Model.StartTime</p>
+    <p><strong>End:</strong> @Model.EndTime</p>
+</div>
+
+<form asp-action="Review" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button name="decision" value="Approve" class="btn btn-success">Approve</button>
+    <button name="decision" value="Reject" class="btn btn-danger">Reject</button>
+    <a href="/Broadcast/ApproveList" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,25 @@
+﻿@model List<TVBroad.Domain.Entities.Broadcasting>
+
+<h2>Broadcast List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.StartTime.ToString("g")</td>
+                <td>@item.EndTime.ToString("g")</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

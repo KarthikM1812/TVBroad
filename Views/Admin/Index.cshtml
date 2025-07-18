@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
+<h2>All Users</h2>
+<a class="btn btn-primary" href="/Admin/CreateUser">+ Create New User</a>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>UserName</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+            </tr>
+        }
+    </tbody>
+</table>

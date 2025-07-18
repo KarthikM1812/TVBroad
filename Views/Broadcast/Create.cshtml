@@ -1,0 +1,32 @@
+﻿@model TVBroad.Domain.Entities.Broadcasting
+@{
+    ViewData["Title"] = "Create Broadcast";
+}
+<h2>Create Broadcast</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StartTime"></label>
+        <input asp-for="StartTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="StartTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndTime"></label>
+        <input asp-for="EndTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="EndTime" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Add</button>
+    <a href="/Broadcast/Index" class="btn btn-secondary">Cancel</a>
+</form>
