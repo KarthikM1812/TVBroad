@@ -1,0 +1,47 @@
+﻿@model TVBroad.Domain.Entities.BroadcastSchedule
+
+@{
+    ViewData["Title"] = "Edit Schedule";
+}
+
+<h2 class="mb-4">Edit Broadcast Schedule</h2>
+
+<div class="card shadow p-4">
+    <form asp-action="Edit" asp-controller="Scheduler" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="StartTime" class="form-label"></label>
+            <input asp-for="StartTime" class="form-control" type="datetime-local" />
+            <span asp-validation-for="StartTime" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="EndTime" class="form-label"></label>
+            <input asp-for="EndTime" class="form-control" type="datetime-local" />
+            <span asp-validation-for="EndTime" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

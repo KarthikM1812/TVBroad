@@ -1,0 +1,108 @@
+﻿/* === Base Body Styling === */
+body {
+    background-color: #f4f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    color: #2f3542;
+}
+
+/* === Headings === */
+h2, h3 {
+    color: #2c3e50;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+/* === Table Styling === */
+.table {
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+/* === Table Borders and Padding === */
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+    padding: 14px 12px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* === Table Header === */
+thead th {
+    background-color: #34495e;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* === Row Striping === */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9fbfd;
+}
+
+/* === Hover Effect === */
+.table-hover tbody tr:hover {
+    background-color: #eef3f7;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* === Status Color Classes === */
+.table-primary {
+    background-color: #d1ecf1 !important;
+    color: #0c5460;
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+/* === Typography Utilities === */
+.fw-semibold {
+    font-weight: 600;
+}
+
+.text-start {
+    text-align: left !important;
+}
+
+/* === Alerts === */
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 10px 15px;
+    margin-top: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+/* === Table Responsiveness === */
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+    /* === Scrollbar Styling (Optional) === */
+    .table-responsive::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 4px;
+    }

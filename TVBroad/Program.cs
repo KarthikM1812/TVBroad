@@ -1,31 +1,62 @@
-using Broadcast.DataAccess.Repository;
-using Broadcast.DataService.Service;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using TVBroad.DataAccess.Data;
-using TVBroad.Domain.Interfaces.Broadcast;
+using TVBroad.DataAccess.Repository;
+using TVBroad.DataAccess.Repository.Admin;
+using TVBroad.DataAccess.Repository.Approver;
+using TVBroad.DataAccess.Repository.SchedulerRepo;
+using TVBroad.DataAccess.Repository.UserR;
+using TVBroad.Domain.Interfaces;
+using TVBroad.Domain.Interfaces.Approver;
+using TVBroad.Domain.Interfaces.IAdmin;
+using TVBroad.Domain.Interfaces.IScheduler;
+using TVBroad.Domain.Interfaces.IUser;
+using TVBroad.Service.Approver;
+using TVBroad.Service.SchedulerService;
+using TVBroad.Service.Service.Admin;
+using TVBroad.Service.Services;
+using TVBroad.Service.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ?? Configure DbContext
+// Configure your DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure Cookie Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login/Index";
+        options.AccessDeniedPath = "/Login/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.SlidingExpiration = true;
+    });
+
+// Register your custom services
+builder.Services.AddScoped<IAdminUserRepository, AdminUserRepository>();
+builder.Services.AddScoped<IAdminUserService, AdminUserService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<ISchedulerRepository, SchedulerRepository>();
+builder.Services.AddScoped<ISchedulerService, SchedulerService>();
 
 builder.Services.AddScoped<IBroadcastRepository, BroadcastRepository>();
 builder.Services.AddScoped<IBroadcastService, BroadcastService>();
 
+builder.Services.AddScoped<IApproverService, ApproverService>();
+builder.Services.AddScoped<IApproverRepository, ApproverRepository>();
 
-// ?? Configure Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
 
-// ?? Add MVC services
+
+//  MVC support
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// ?? Middleware setup
+//  Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -33,64 +64,17 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // Required for static files like CSS/JS
+app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // ? Must come before UseAuthorization
+// ✅ Auth middleware
+app.UseAuthentication();
 app.UseAuthorization();
 
-// ??? Route config
-
-
-// ? Seed Roles and Admin User
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-
-    
-
-    string[] roles = new[] { "Admin", "Scheduler", "Approver" };
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
-
-    // Admin user details
-    string adminEmail = "admin@tv.com";
-    string adminPassword = "Admin@123";
-
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-    if (adminUser == null)
-    {
-        var user = new IdentityUser
-        {
-            UserName = adminEmail,
-            Email = adminEmail,
-            EmailConfirmed = true
-        };
-
-        var result = await userManager.CreateAsync(user, adminPassword);
-        if (result.Succeeded)
-        {
-            await userManager.AddToRoleAsync(user, "Admin");
-        }
-        else
-        {
-            Console.WriteLine("Error creating admin user:");
-            foreach (var error in result.Errors)
-                Console.WriteLine($"- {error.Description}");
-        }
-    }
-}
+// ✅ Default route (Login)
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

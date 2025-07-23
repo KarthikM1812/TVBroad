@@ -1,0 +1,122 @@
+﻿@model IEnumerable<TVBroad.Domain.Entities.BroadcastSchedule>
+
+@{
+    ViewData["Title"] = "Schedule";
+}
+
+<link rel="stylesheet" href="~/css/schedule.css" />
+
+<h2> Broadcast Schedule</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>  Description</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+                <td>@item.StartTime.ToString("g")</td>
+                <td>@item.EndTime.ToString("g")</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+<h3 class="mt-5"> Broadcast Schedule</h3>
+<div id="broadcastTableContainer" class="table-responsive mt-3"></div>
+@section Scripts {
+    <script>
+        function generateTimeIntervals() {
+            const current = new Date();
+            current.setSeconds(0, 0);
+            const roundedStart = new Date(current.getFullYear(), current.getMonth(), current.getDate(), current.getHours(), current.getMinutes() < 30 ? 0 : 30);
+            roundedStart.setMinutes(roundedStart.getMinutes() - 120);
+
+            const intervals = [];
+            for (let i = 0; i < 9; i++) {
+                const startTime = new Date(roundedStart.getTime() + i * 30 * 60000);
+                const endTime = new Date(startTime.getTime() + 30 * 60000);
+                intervals.push({ startTime, endTime });
+            }
+
+            return intervals;
+        }
+
+        function parseLocal(str) {
+            const [datePart, timePart] = str.split("T");
+            const [year, month, day] = datePart.split("-").map(Number);
+            const [hour, minute] = timePart.split(":").map(Number);
+            return new Date(year, month - 1, day, hour, minute);
+        }
+
+        function renderBroadcastGrid(broadcastItems) {
+            const intervals = generateTimeIntervals();
+            const now = new Date();
+            now.setSeconds(0, 0);
+
+            let output = `<table class="table table-bordered text-center">
+                <thead class="table-dark"><tr>
+                    <th>Time Slot</th>
+                    <th>Program Title</th>
+                    <th>Description</th>
+                </tr></thead><tbody>`;
+
+            intervals.forEach(interval => {
+                const slotLabel = `${interval.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${interval.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+                const currentProgram = broadcastItems.find(p => {
+                    const progStart = parseLocal(p.startTime);
+                    const progEnd = parseLocal(p.endTime);
+                    return progStart < interval.endTime && progEnd > interval.startTime;
+                });
+
+                const isNow = now >= interval.startTime && now < interval.endTime;
+                const rowClass = isNow ? "table-danger fw-bold" : "";
+
+                output += `<tr class="${rowClass}">
+                    <td class="fw-semibold">${slotLabel}</td>
+                    <td>${currentProgram ? currentProgram.title : '-'}</td>
+                    <td>${currentProgram ? currentProgram.description : '-'}</td>
+                </tr>`;
+            });
+
+            output += `</tbody></table>`;
+            document.getElementById("broadcastTableContainer").innerHTML = output;
+        }
+
+        function fetchAndDisplaySchedule() {
+            const url = `/Json/Broadcast.json?_ts=${Date.now()}`;
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("Unable to fetch broadcast data.");
+                    return response.json();
+                })
+                .then(data => renderBroadcastGrid(data))
+                .catch(error => {
+                    console.error("Schedule Error:", error.message);
+                    document.getElementById("broadcastTableContainer").innerHTML = `<div class="alert alert-danger">Failed to load schedule. ${error.message}</div>`;
+                });
+        }
+
+        fetchAndDisplaySchedule();
+        setInterval(fetchAndDisplaySchedule, 30 * 60 * 1000); // Refresh every 30 mins
+    </script>
+}
+
+
+
+

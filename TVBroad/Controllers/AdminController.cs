@@ -1,56 +1,59 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using TVBroad.Web.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Linq;
+using TVBroad.Domain.Entities;
+using TVBroad.Domain.Interfaces.IAdmin;
+using System.Collections.Generic;
 
-namespace TVBroad.Web.Controllers
+namespace TVBroad.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IAdminUserService _adminService;
 
-        public AdminController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(IAdminUserService adminService)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _adminService = adminService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = _userManager.Users.ToList();
+            var users = await _adminService.GetAllUsersAsync();
+            return RedirectToAction("Schedule", "Broadcast");
+        }
+
+        public async Task<IActionResult> Role()
+        {
+            var users = await _adminService.GetAllUsersAsync(); 
             return View(users);
         }
 
-        public IActionResult CreateUser()
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser(string username, string password, string role)
         {
-            return View();
+            var user = new AppUser
+            {
+                Username = username,
+                PasswordHash = password, 
+                Role = role
+            };
+
+            await _adminService.AddUserAsync(user);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(RegisterView model)
+        public async Task<IActionResult> AssignRole(int id, string role)
         {
-            if (!ModelState.IsValid) return View(model);
+            await _adminService.AssignRoleAsync(id, role);
+            return RedirectToAction("Index");
+        }
 
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                if (!await _roleManager.RoleExistsAsync(model.Role))
-                    await _roleManager.CreateAsync(new IdentityRole(model.Role));
-
-                await _userManager.AddToRoleAsync(user, model.Role);
-                return RedirectToAction("Index");
-            }
-
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error.Description);
-
-            return View(model);
+        [HttpPost]
+        public async Task<IActionResult> RemoveRole(int id)
+        {
+            await _adminService.RemoveRoleAsync(id);
+            return RedirectToAction("Index");
         }
     }
 }
