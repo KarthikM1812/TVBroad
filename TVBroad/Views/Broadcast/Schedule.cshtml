@@ -12,10 +12,14 @@
     <thead>
         <tr>
             <th>Title</th>
-            <th>  Description</th>
+            <th>Description</th>
             <th>Start Time</th>
             <th>End Time</th>
             <th>Status</th>
+            @if (User.IsInRole("Scheduler"))
+            {
+                <th>Edit</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -27,6 +31,18 @@
                 <td>@item.StartTime.ToString("g")</td>
                 <td>@item.EndTime.ToString("g")</td>
                 <td>@item.Status</td>
+
+                @if (User.IsInRole("Scheduler"))
+                {
+                    <td>
+                        <a asp-controller="Scheduler" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning me-1">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a asp-controller="Scheduler" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </td>
+                }
             </tr>
         }
     </tbody>
@@ -40,9 +56,13 @@
 <div id="broadcastTableContainer" class="table-responsive mt-3"></div>
 @section Scripts {
     <script>
+        // Generate 9 time slots (each 30 minutes) starting from 2 hours ago
         function generateTimeIntervals() {
-            const current = new Date();
-            current.setSeconds(0, 0);
+            const current = new Date();   // Get current date/time
+            current.setSeconds(0, 0);      // Reset seconds and milliseconds
+
+
+          // Round time to the nearest 0 or 30 mins, then subtract 120 mins (2 hrs)
             const roundedStart = new Date(current.getFullYear(), current.getMonth(), current.getDate(), current.getHours(), current.getMinutes() < 30 ? 0 : 30);
             roundedStart.setMinutes(roundedStart.getMinutes() - 120);
 
@@ -53,20 +73,22 @@
                 intervals.push({ startTime, endTime });
             }
 
-            return intervals;
+            return intervals;   //Returns array of 9 time slots
         }
-
+       // Convert JSON date-time string (like "2025-07-23T14:30") to local JS Date
         function parseLocal(str) {
-            const [datePart, timePart] = str.split("T");
-            const [year, month, day] = datePart.split("-").map(Number);
-            const [hour, minute] = timePart.split(":").map(Number);
-            return new Date(year, month - 1, day, hour, minute);
+             const [datePart, timePart] = str.split("T");             // Separate date & time
+             const [year, month, day] = datePart.split("-").map(Number);    // Extract Y-M-D
+             const [hour, minute] = timePart.split(":").map(Number);        // Extract H:M
+             return new Date(year, month - 1, day, hour, minute);           // Create Date object
         }
 
+
+        // Render HTML table showing time slots and matching broadcast info
         function renderBroadcastGrid(broadcastItems) {
-            const intervals = generateTimeIntervals();
-            const now = new Date();
-            now.setSeconds(0, 0);
+             const intervals = generateTimeIntervals();     // 9 slots
+             const now = new Date();                        // Current time
+             now.setSeconds(0, 0);                          // Ignore seconds/millis
 
             let output = `<table class="table table-bordered text-center">
                 <thead class="table-dark"><tr>
@@ -75,18 +97,23 @@
                     <th>Description</th>
                 </tr></thead><tbody>`;
 
+
+             //Loop through each 30-minute slot
             intervals.forEach(interval => {
                 const slotLabel = `${interval.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${interval.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 
+                 //Find program that overlaps this time slot
                 const currentProgram = broadcastItems.find(p => {
                     const progStart = parseLocal(p.startTime);
                     const progEnd = parseLocal(p.endTime);
                     return progStart < interval.endTime && progEnd > interval.startTime;
                 });
 
+                // Highlight current slot
                 const isNow = now >= interval.startTime && now < interval.endTime;
                 const rowClass = isNow ? "table-danger fw-bold" : "";
 
+                 // Add row to table
                 output += `<tr class="${rowClass}">
                     <td class="fw-semibold">${slotLabel}</td>
                     <td>${currentProgram ? currentProgram.title : '-'}</td>
@@ -98,21 +125,22 @@
             document.getElementById("broadcastTableContainer").innerHTML = output;
         }
 
+        // Fetch schedule data from JSON file and render table
         function fetchAndDisplaySchedule() {
-            const url = `/Json/Broadcast.json?_ts=${Date.now()}`;
+             const url = `/Json/Broadcast.json?_ts=${Date.now()}`; //Add timestamp to prevent caching
             fetch(url)
                 .then(response => {
-                    if (!response.ok) throw new Error("Unable to fetch broadcast data.");
-                    return response.json();
+                     if (!response.ok) throw new Error("Unable to fetch broadcast data.");
+                     return response.json();//Convert to JSON
                 })
-                .then(data => renderBroadcastGrid(data))
+                 .then(data => renderBroadcastGrid(data)) //Render table with broadcast data
                 .catch(error => {
                     console.error("Schedule Error:", error.message);
                     document.getElementById("broadcastTableContainer").innerHTML = `<div class="alert alert-danger">Failed to load schedule. ${error.message}</div>`;
                 });
         }
-
-        fetchAndDisplaySchedule();
+         //Initial call + auto-refresh every 30 mins
+         fetchAndDisplaySchedule();                          //Run immediately on page load
         setInterval(fetchAndDisplaySchedule, 30 * 60 * 1000); // Refresh every 30 mins
     </script>
 }

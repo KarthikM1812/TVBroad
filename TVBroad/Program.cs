@@ -68,11 +68,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// ✅ Auth middleware
+//  Auth middleware
 app.UseAuthentication();
 app.UseAuthorization();
 
-// ✅ Default route (Login)
+//  Default route (Login)
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");

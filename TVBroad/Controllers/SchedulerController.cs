@@ -30,28 +30,47 @@ namespace TVBroad.Controllers
 
 
         // POST: Broadcasts/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Scheduler")]
+        //public async Task<IActionResult> Create(BroadcastSchedule schedule)
+        //{
+
+        //    schedule.Status = "Pending";
+        //    schedule.CreatedBy = User.Identity?.Name ?? "Unknown";
+
+        //    bool hasOverlap = await _schedulerService.HasOverlapAsync(broadcast.StartTime, broadcast.EndTime);
+        //    if (hasOverlap)
+        //    {
+        //        ModelState.AddModelError("", "Broadcast time overlaps with an existing approved broadcast.");
+        //        return View(broadcast);
+        //    }
+        //    S
+
+        //    await _schedulerService.AddAsync(schedule);
+        //    return RedirectToAction("Schedule", "Broadcast");
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Scheduler")]
         public async Task<IActionResult> Create(BroadcastSchedule schedule)
         {
-
             schedule.Status = "Pending";
             schedule.CreatedBy = User.Identity?.Name ?? "Unknown";
 
-            //bool hasOverlap = await _schedulerService.HasOverlapAsync(broadcast.StartTime, broadcast.EndTime);
-            //if (hasOverlap)
-            //{
-            //    ModelState.AddModelError("", "Broadcast time overlaps with an existing approved broadcast.");
-            //    return View(broadcast);
-            //}S
+            bool hasOverlap = await _schedulerService.HasOverlapAsync(schedule.StartTime, schedule.EndTime);
+            if (hasOverlap)
+            {
+                ModelState.AddModelError("", "Broadcast time overlaps with an existing approved broadcast.");
+                return View(schedule);
+            }
 
             await _schedulerService.AddAsync(schedule);
             return RedirectToAction("Schedule", "Broadcast");
         }
-        
-         // GET: Edit
-    public async Task<IActionResult> Edit(int id)
+
+        // GET: Edit
+        public async Task<IActionResult> Edit(int id)
         {
             var schedule = await _schedulerService.GetByIdAsync(id);
             if (schedule == null)

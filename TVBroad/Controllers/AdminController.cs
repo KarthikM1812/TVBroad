@@ -17,7 +17,7 @@ namespace TVBroad.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var users = await _adminService.GetAllUsersAsync();
+            //var users = await _adminService.GetAllUsersAsync();
             return RedirectToAction("Schedule", "Broadcast");
         }
 

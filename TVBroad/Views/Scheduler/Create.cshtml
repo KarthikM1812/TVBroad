@@ -10,6 +10,7 @@
     <h2 class="mb-4 text-center">Create Schedule</h2>
 
     <div class="card shadow p-4 rounded">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <form asp-action="Create" method="post">
             @Html.AntiForgeryToken()
 
